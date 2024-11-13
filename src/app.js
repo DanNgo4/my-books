@@ -1,32 +1,22 @@
-import {PLATFORM} from 'aurelia-pal';
+import { PLATFORM } from "aurelia-pal";
 
 export class App {
   configureRouter(config, router) {
-    config.title = 'Aurelia';
+    this.router = router;
+
+    config.title = "my-books";
     config.map([
       {
-        route: ['', 'welcome'],
-        name: 'welcome',
-        moduleId: PLATFORM.moduleName('./welcome'),
-        nav: true,
-        title: 'Welcome'
+        route: ["", "home"],
+        name: "home",
+        moduleId: PLATFORM.moduleName("./index")
       },
+
       {
-        route: 'users',
-        name: 'users',
-        moduleId: PLATFORM.moduleName('./users'),
-        nav: true,
-        title: 'Github Users'
-      },
-      {
-        route: 'child-router',
-        name: 'child-router',
-        moduleId: PLATFORM.moduleName('./child-router'),
-        nav: true,
-        title: 'Child Router'
+        route: "books",
+        name: "books",
+        moduleId: PLATFORM.moduleName("books")
       }
     ]);
-
-    this.router = router;
   }
 }

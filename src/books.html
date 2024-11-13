@@ -1,0 +1,21 @@
+<template>
+  <require from="./book-list"></require>
+
+  <h1>Add book</h1>
+
+  <form submit.trigger="addBook()">
+    <label for="book-title"></label>
+
+    <input 
+      value.bind="bookTitle"
+      id="book-title"
+      type="text"
+      placeholder="book title..."
+    />
+
+    <input type="submit" value="add" />
+  </form>
+
+  <!-- containerless is used to hide the book-list tag to appear in DOM  -->
+  <book-list books.bind="books" containerless></book-list>
+</template>

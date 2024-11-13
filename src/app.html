@@ -1,13 +1,4 @@
 <template>
-  <require from="bootstrap/dist/css/bootstrap.min.css"></require>
-  <require from="@fortawesome/fontawesome-free/css/all.min.css"></require>
-  <require from="./styles.css"></require>
-
-  <require from="./nav-bar.html"></require>
-
-  <nav-bar router.bind="router"></nav-bar>
-
-  <div class="page-host">
-    <router-view></router-view>
-  </div>
+  <!-- containerless is used to hide the router-view tag to appear in DOM  -->
+  <router-view containerless></router-view>
 </template>
