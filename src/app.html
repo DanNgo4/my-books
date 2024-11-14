@@ -1,4 +1,18 @@
 <template>
-  <!-- containerless is used to hide the router-view tag to appear in DOM  -->
-  <router-view containerless></router-view>
+  <require from="bootstrap/dist/css/bootstrap.min.css"></require>
+  <require from="@fortawesome/fontawesome-free/css/all.min.css"></require>
+  <require from="styles.css"></require>
+
+    <div class="container">
+      <div class="header clearfix">
+        <h3 class="text-muted"><span class="brand-highlight">my </span> books</h3>
+      </div>
+
+    <!-- containerless is used to hide the router-view tag to appear in DOM  -->
+    <router-view containerless></router-view>
+    
+    <footer class="footer">
+      <p>&copy; Aurelia Demo 2017</p>
+    </footer>
+  </div>
 </template>

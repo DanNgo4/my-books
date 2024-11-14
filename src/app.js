@@ -1,4 +1,5 @@
 import { PLATFORM } from "aurelia-pal";
+import "bootstrap";
 
 export class App {
   configureRouter(config, router) {
@@ -15,7 +16,7 @@ export class App {
       {
         route: "books",
         name: "books",
-        moduleId: PLATFORM.moduleName("books")
+        moduleId: PLATFORM.moduleName("./resources/elements/books")
       }
     ]);
   }

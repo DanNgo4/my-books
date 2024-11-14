@@ -1,0 +1,31 @@
+<template>
+  <require from="./book-list"></require>
+  <require from="./heading.html"></require> <!-- view-only component/element -->
+
+  <heading text.bind="'Add books'"></heading> <!-- text binding expression for the view-only component/element -->
+
+  <div class="card">
+    <div class="card-block">
+      <form submit.trigger="addBook()" class="form-inline">
+        <label for="book-title"></label>
+    
+        <input 
+          value.bind="bookTitle"
+          id="book-title"
+          type="text"
+          placeholder="book title..."
+          class="form-control"
+        />
+    
+        <input 
+          type="submit" 
+          value="add"
+          class="btn btn-success tap-right" 
+        />
+      </form>    
+    </div>
+  </div>
+
+  <!-- containerless is used to hide the book-list tag to appear in DOM  -->
+  <book-list books.bind="books" containerless></book-list>
+</template>
