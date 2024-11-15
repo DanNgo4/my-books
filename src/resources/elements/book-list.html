@@ -2,20 +2,33 @@
   <require from="../attributes/tooltip"></require>
 
   <ul class="books list-group list-group-flush">
-    <li repeat.for="book of books" class="list-group-item">
+    <!-- uses the $even contextual property to give the even rows a different style -->
+    <li 
+      repeat.for="book of books" 
+      class="list-group-item ${ $even ? 'book-even' : '' }"
+    >
       <div class="book row">
-        <div class="col-10">${book.title}</div>
+        <div class="col-10">
+          <!-- uses $first and $last contextual properties to give insight into what element you're on -->
+          ${book.title} ${bookLocation($first, $last)}
+        </div>
+
         <div class="col-1">
 
           <!--  
-            - passes the index of the book in the current iteration to the removeBook method ($index is the index in this loop by convention (repeat.for))
+            - passes the index of the book in the current iteration to the removeBook method ($index (a contextual propertyin Aurelia) is the index in this loop by convention (repeat.for))
             - adds the tooltip attribute and passes the literal tooltip options values to the view-model in the binding expression
+            - another syntax to pass in tooltip's attributes:
+              tooltip="
+                title: Remove book from list; 
+                placement: right
+              "
           -->
           <span
             click.delegate="removeBook($index)" 
             tooltip="
-              title: Remove book from list; 
-              placement: right
+              title.bind: 'Remove book from list'; 
+              placement.bind: 'right'
             "
             class="remove-button"
           >
