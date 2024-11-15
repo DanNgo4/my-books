@@ -1,8 +1,28 @@
 <template>
+  <require from="../attributes/tooltip"></require>
+
   <ul class="books list-group list-group-flush">
     <li repeat.for="book of books" class="list-group-item">
       <div class="book row">
         <div class="col-10">${book.title}</div>
+        <div class="col-1">
+
+          <!--  
+            - passes the index of the book in the current iteration to the removeBook method ($index is the index in this loop by convention (repeat.for))
+            - adds the tooltip attribute and passes the literal tooltip options values to the view-model in the binding expression
+          -->
+          <span
+            click.delegate="removeBook($index)" 
+            tooltip="
+              title: Remove book from list; 
+              placement: right
+            "
+            class="remove-button"
+          >
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </span>
+
+        </div>
       </div>
     </li>
   </ul>
