@@ -18,9 +18,11 @@
           class="form-control"
         />
     
+        <!-- sets up a one-way binding expression on the canAdd expression -->
         <input 
           type="submit" 
           value="add"
+          disabled.one-way="canAdd"
           class="btn btn-success tap-right" 
         />
       </form>    
