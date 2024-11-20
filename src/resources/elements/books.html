@@ -10,7 +10,16 @@
       <form submit.trigger="addBook()" class="form-inline">
         <label for="book-title"></label>
 
+        <!-- 
+        - introduces the throttle-binding behaviour with an interval of 850ms, that is the input value is notified to the view-model once every 850ms: value.bind="bookTitle & throttle:850"
+        - binding expression modified to include the debounce binding behaviour, that is the input value is notified to the view-model only after the user stopped typing for 850ms: value.bind="bookTitle & debounce:850"
+        - binding expression modified to include the updateTrigger binding behaviour, that is the input value is notified to the view-model only when the user click or tab away from the input field (blur): value.bind="bookTitle & updateTrigger:'blur'"
+        - adds a blur trigger to fire the new signal when the user tabs away and changes the value.bind expression back to the basic two-way binding, that is the submit input button's disabled attribute is notified to the view-model based on the custome event/signal: can-add-signal, which is fired when the input box is blurred away (click or tab out):
+          blur.trigger="refreshSignal()"
+          value.bind="bookTitle"
+        -->
         <input 
+          blur.trigger="refreshSignal()"
           value.bind="bookTitle"
           id="book-title"
           type="text"
@@ -18,11 +27,14 @@
           class="form-control"
         />
     
-        <!-- sets up a one-way binding expression on the canAdd expression -->
+        <!-- 
+        - sets up a one-way binding expression on the canAdd expression: disabled.one-way="canAdd" 
+        - wires up the canAdd binding expression to signal based on the 'can-add-signal'
+        -->
         <input 
           type="submit" 
           value="add"
-          disabled.one-way="canAdd"
+          disabled.bind="canAdd() & signal: 'can-add-signal'"
           class="btn btn-success tap-right" 
         />
       </form>    
