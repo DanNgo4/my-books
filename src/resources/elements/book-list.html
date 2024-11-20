@@ -1,15 +1,41 @@
 <template>
   <require from="../attributes/tooltip"></require>
+
   <require from="../value-converters/book-status"></require>
+  <require from="../value-converters/filter"></require>
+  <require from="../value-converters/search-bold"></require>
+  <require from="../value-converters/highlight"></require>
+
+  <div class="card">
+    <div class="card-header form-inline">
+      <!-- adds a new filter panel with a two-way binding on the searchTerm input field -->
+      <div class="input-group">
+        <span class="input-group-addon" id="filter-icon">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </span>
+
+        <input 
+          type="text" 
+          placeholder="filter" 
+          aria-describedby="filter-icon" 
+          value.bind="searchTerm"
+          class="form-control" />
+      </div>
+    </div>
+  </div>
 
   <ul class="books list-group list-group-flush">
-    <!-- uses the $even contextual property to give the even rows a different style -->
+    <!-- 
+      - runs the book array through the filter value converter, passing the searchTerm parameter
+      - uses the $even contextual property to give the even rows a different style 
+    -->
     <li 
-      repeat.for="book of books" 
+      repeat.for="book of books | filter:searchTerm" 
       class="list-group-item ${ $even ? 'book-even' : '' }"
     >
       <div class="book row">
-        <div class="col-10">
+        <!-- binds innerhtml (Aurelia's custom attribute of title <div> to book.title with the searchBold value converter applied), then composes highlight value converter at the end -->
+        <div class="col-10" innerhtml.bind="book.title | searchBold:searchTerm | highlight">
           <!-- uses $first and $last contextual properties to give insight into what element you're on -->
           ${book.title} ${bookLocation($first, $last)}
         </div>
