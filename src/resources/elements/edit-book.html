@@ -1,0 +1,38 @@
+<template>
+  <require from="../value-converters/date-format"></require>
+
+  <div class="edit-book ${editMode ? 'visible' : 'hidden'} transformable">
+    <div class="wrapper">
+      <div class="row">
+        <span class="col-3 offset-md-10">
+          <small class="text-muted">
+            ${book.readDate | dateFormat}
+          </small>
+        </span>
+      </div>
+
+      <form>
+        <div class="form-group row">
+          <label for="title">Title</label>
+
+          <!-- two-way binding between the input field and the temporary title -->
+          <input type="text"
+                 id="title"
+                 value.bind="temporaryBook.title"
+                 placeholder="book title"
+                 class="form-control" />
+        </div>
+
+        <div class="form-group row">
+          <label for="description">Description</label>
+
+          <!-- two-way binding between the textarea and the temporary description -->
+          <textarea id="description"
+                    value.bind="temporaryBook.description"
+                    placeholder="book description"
+                    class="form-control"></textarea>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
