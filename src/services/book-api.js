@@ -14,4 +14,12 @@ export class BookApi {
         return books;
       });
   }
+
+  saveBook(book) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(book);
+      }, 1000);
+    })
+  }
 }
