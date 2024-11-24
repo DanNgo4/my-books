@@ -19,7 +19,6 @@
           value.bind="bookTitle"
         -->
         <input 
-          blur.trigger="refreshSignal()"
           value.bind="bookTitle"
           id="book-title"
           type="text"
@@ -29,12 +28,11 @@
     
         <!-- 
         - sets up a one-way binding expression on the canAdd expression: disabled.one-way="canAdd" 
-        - wires up the canAdd binding expression to signal based on the 'can-add-signal'
         -->
         <input 
           type="submit" 
           value="add"
-          disabled.bind="canAdd() & signal: 'can-add-signal'"
+          disabled.bind="canAdd"
           class="btn btn-success tap-right" 
         />
       </form>    

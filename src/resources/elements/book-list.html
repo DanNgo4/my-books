@@ -1,10 +1,7 @@
 <template>
-  <require from="../attributes/tooltip"></require>
+  <require from="./book"></require>
 
-  <require from="../value-converters/book-status"></require>
   <require from="../value-converters/filter"></require>
-  <require from="../value-converters/search-bold"></require>
-  <require from="../value-converters/highlight"></require>
 
   <div class="card">
     <div class="card-header form-inline">
@@ -22,54 +19,12 @@
           class="form-control" />
       </div>
     </div>
+
+    <ul class="books list-group list-group-flush"></ul>
+      <book containerless
+            repeat.for="book of books | filter:searchTerm"
+            book.bind="book"
+            search-term.bind="searchTerm"></book>
+    </ul>
   </div>
-
-  <ul class="books list-group list-group-flush">
-    <!-- 
-      - runs the book array through the filter value converter, passing the searchTerm parameter
-      - uses the $even contextual property to give the even rows a different style 
-    -->
-    <li 
-      repeat.for="book of books | filter:searchTerm" 
-      class="list-group-item ${ $even ? 'book-even' : '' }"
-    >
-      <div class="book row">
-        <!-- binds innerhtml (Aurelia's custom attribute of title <div> to book.title with the searchBold value converter applied), then composes highlight value converter at the end -->
-        <div class="col-10" innerhtml.bind="book.title | searchBold:searchTerm | highlight">
-          <!-- uses $first and $last contextual properties to give insight into what element you're on -->
-          ${book.title} ${bookLocation($first, $last)}
-        </div>
-
-        <span class="col-1">
-          <!-- adds the Font Awesome icon and uses the new value converter in the binding expression to render the icon -->
-          <i class="far ${book.status | bookStatus}" aria-hidden="true"></i>
-        </span>
-
-        <div class="col-1">
-
-          <!--  
-            - attaches a click-event handler to the removeBook view-model method using a delegate command. Aurelia will store a referene to the aggregated event targets in its internal map and call the appropriate handler that corresponds to the target to optimise performance instead of assigning each handler to each item/target in the list
-            - passes the index of the book in the current iteration to the removeBook method ($index (a contextual propertyin Aurelia) is the index in this loop by convention (repeat.for))
-            - adds the tooltip attribute and passes the literal tooltip options values to the view-model in the binding expression
-            - another syntax to pass in tooltip's attributes:
-              tooltip="
-                title: Remove book from list; 
-                placement: right
-              "
-          -->
-          <span
-            click.delegate="removeBook($index)" 
-            tooltip="
-              title.bind: 'Remove book from list'; 
-              placement.bind: 'right'
-            "
-            class="remove-button"
-          >
-            <i class="fa fa-trash" aria-hidden="true"></i>
-          </span>
-
-        </div>
-      </div>
-    </li>
-  </ul>
 </template>

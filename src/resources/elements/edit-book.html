@@ -32,6 +32,46 @@
                     placeholder="book description"
                     class="form-control"></textarea>
         </div>
+
+        <hr />
+
+        <div class="form-inline col-3 offset-lg-10 col-sm-12">
+          <div class="custom-control" show.bind="loading">
+
+            <!-- loader to indicate a slow API call -->
+            <i class="fa fa-spinner fa-pulse fa-fw"></i>
+
+            <span class="sr-only">Loading...</span>
+          </div>
+
+          <div class="custom-control brand-highlight" show.bind="saved">
+            <i class="fa fa-check" aria-hidden="true"></i>
+          </div>
+
+          <!-- 
+          - save button is disabled if the book hasn't been edited
+          - save button is delegated to the save method on the view-model 
+          -->
+          <button 
+            disabled.bind="!canSave"
+            click.delegate="save()"
+            class="btn btn-secondary btn-sm padded"
+          >
+            save
+          </button>
+
+          <!-- cancel button is delegated to cancel the view-model method -->
+          <button 
+            click.delegate="cancel()"
+            class="btn btn-secondary btn-sm padded"
+          >
+            <span class="cancel">
+              <i class="fa fa-minus-circle"></i>
+            </span>
+
+            cancel
+          </button>
+        </div>
       </form>
     </div>
   </div>

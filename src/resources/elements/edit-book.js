@@ -19,7 +19,7 @@ export class EditBook {
 
   attached() {
     this.bookSaveCompleteSubscription = this.eventAggregator.subscribe(
-      `book-save-complete-${this.book.id}`, 
+      `book-save-complete-${this.book.Id}`, 
       () => this.bookSaveComplete()
     );
   }
@@ -71,7 +71,7 @@ export class EditBook {
 
   // publishes the book-saved event to be picked up by the parent component
   publishBooksSavedEvent() {
-    this.eventAggregator.publish("saved-book", this.temporaryBook);
+    this.eventAggregator.publish("save-book", this.temporaryBook);
   }
 
   // toggles the edit mode to close the form when edits are complete
