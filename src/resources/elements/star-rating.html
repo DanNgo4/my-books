@@ -1,0 +1,20 @@
+<template>
+  <ul class="star-rating">
+
+    <!--
+    - delegates the mouseover and mouseout events to the corresponding view-model methods
+    - applies a debounce binding behaviour to limit event frequency 
+     -->
+    <li 
+      repeat.for="star of stars"
+      click.delegate="rate($index)"
+      mouseover.delegate="mouseOver($index) & debounce:100"
+      mouseout.delegate="mouseOut($index) & debounce:100"
+    >
+      <span class="star ${star.displayType === '' ? 'rated' : ''}">
+        <i class="fa fa-star${star.displayType}"></i>
+      </span>
+    </li>
+
+  </ul>
+</template>

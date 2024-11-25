@@ -1,7 +1,10 @@
 <template>
   <require from="../value-converters/date-format"></require>
 
-  <div class="edit-book ${editMode ? 'visible' : 'hidden'} transformable">
+  <require from="./star-rating"></require>
+
+  <!-- gets a reference to the edit form div for use in the view-model -->
+  <div ref="editFormDiv" class="edit-book ${editMode ? 'visible' : 'hidden'} transformable">
     <div class="wrapper">
       <div class="row">
         <span class="col-3 offset-md-10">
@@ -27,13 +30,26 @@
           <label for="description">Description</label>
 
           <!-- two-way binding between the textarea and the temporary description -->
-          <textarea id="description"
-                    value.bind="temporaryBook.description"
-                    placeholder="book description"
-                    class="form-control"></textarea>
+          <textarea 
+            id="description"
+            value.bind="temporaryBook.description"
+            placeholder="book description"
+            class="form-control">
+          </textarea>
         </div>
 
         <hr />
+
+        <!--
+        - creates a view-model reference to the starRating view-model (pass a ref to the star-rating element itself to the EditBook view-model, allowing the parent component to access its methods and properties. The reference is stored in a property called starRatingViewModel in the parent view-model)
+        - makes the ratingElement available to the edit-book view-model (creates a reference to the actual DOM element of the star-rating element, allowing the parent element to access the HTML element itself. The reference is stored in a property called ratingElement in the parent view-model)
+        - binds the rating on the star-book component to the book's rating
+         -->
+        <star-rating
+          view-model.ref="starRatingViewModel"
+          ref="ratingElement"
+          rating.bind="temporaryBook.rating">
+        </star-rating>
 
         <div class="form-inline col-3 offset-lg-10 col-sm-12">
           <div class="custom-control" show.bind="loading">

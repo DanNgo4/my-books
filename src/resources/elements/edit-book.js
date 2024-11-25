@@ -10,11 +10,17 @@ export class EditBook {
   constructor(eventAggregator) {
     this.resetTempBook();
     this.eventAggregator = eventAggregator;
+
+    // creates a handler method for rating-changed events
+    this.ratingChangedListener = e => this.temporaryBook.rating = e.detail.rating;
   }
 
   bind() {
     // resets the book value to the temporary value to undo changes
     this.resetTempBook();
+
+    // adds a listener on the rating element to handle changed events
+    this.ratingElement.addEventListener("change", this.ratingChangedListener);
   }
 
   attached() {
@@ -29,8 +35,8 @@ export class EditBook {
     if (editModeNew) this.resetTempBook();
   }
 
-  // books can be saved if they have been edited
-  @computedFrom("temporaryBook.title", "temporaryBook.description")
+  // books can be saved if they have been edited, or if the rating has changed
+  @computedFrom("temporaryBook.title", "temporaryBook.description", "temporaryBook.rating")
   get canSave() {
     return this.temporaryBook && !_.isEqual(this.temporaryBook, this.book);
   }
@@ -43,6 +49,10 @@ export class EditBook {
   // cancels the delegate method, reverts changes on the book and closes the edit form
   cancel() {
     this.temporaryBook = this.book;
+
+    // undoes any rating changes on cancel
+    this.starRatingViewModel.applyRating(this.temporaryBook.rating);
+    
     this.toggleEditMode();
   }
 
@@ -82,5 +92,8 @@ export class EditBook {
   detached() {
     // cleans up the Event Aggregator subscription
     this.bookSaveCompleteSubscription.dispose();
+
+    // removes the change-event listener to clean up
+    this.ratingElement.removeEventListener("change", this.ratingChangedListener);
   }
 }
