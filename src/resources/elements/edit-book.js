@@ -1,8 +1,11 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
+
 import _ from "lodash";
 
-@inject(EventAggregator)
+import { BookApi } from "../../services/book-api";
+
+@inject(EventAggregator, BookApi)
 export class EditBook {
   @bindable editMode;
   @bindable book;
@@ -36,7 +39,12 @@ export class EditBook {
   }
 
   // books can be saved if they have been edited, or if the rating has changed
-  @computedFrom("temporaryBook.title", "temporaryBook.description", "temporaryBook.rating")
+  @computedFrom(
+    "temporaryBook.title", 
+    "temporaryBook.description", 
+    "temporaryBook.rating",
+    "temporaryBook.ownACopy"
+  )
   get canSave() {
     return this.temporaryBook && !_.isEqual(this.temporaryBook, this.book);
   }

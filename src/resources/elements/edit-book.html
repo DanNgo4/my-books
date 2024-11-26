@@ -45,11 +45,31 @@
         - makes the ratingElement available to the edit-book view-model (creates a reference to the actual DOM element of the star-rating element, allowing the parent element to access the HTML element itself. The reference is stored in a property called ratingElement in the parent view-model)
         - binds the rating on the star-book component to the book's rating
          -->
-        <star-rating
-          view-model.ref="starRatingViewModel"
-          ref="ratingElement"
-          rating.bind="temporaryBook.rating">
-        </star-rating>
+        <div class="form-inline row">
+          <star-rating
+            view-model.ref="starRatingViewModel"
+            ref="ratingElement"
+            rating.bind="temporaryBook.rating">
+          </star-rating>
+        </div>
+        
+        <hr />
+
+        <div class="form-inline row">
+          <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+            <label class="form-check-label">
+
+              <!-- checked binding command is applied to check-box input element -->
+              <input type="checkbox"
+                     checked.bind="temporaryBook.ownACopy"
+                     class="form-check-input" />
+
+              Own a copy?
+            </label>
+          </div>
+        </div>
+
+        
 
         <div class="form-inline col-3 offset-lg-10 col-sm-12">
           <div class="custom-control" show.bind="loading">
