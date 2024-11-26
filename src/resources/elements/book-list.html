@@ -24,6 +24,8 @@
       <book containerless
             repeat.for="book of books | filter:searchTerm"
             book.bind="book"
+            genres.bind="genres"
+            shelves.bind="shelves"
             search-term.bind="searchTerm"></book>
     </ul>
   </div>

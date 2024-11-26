@@ -39,8 +39,15 @@
     </div>
   </div>
 
-  <!-- containerless is used to hide the book-list tag to appear in DOM  -->
-  <book-list books.bind="books" containerless></book-list>
+  <book-list if.bind="
+               books.length > 0 &&
+               genres.length > 0 &&
+               shelves.length > 0
+             "
+             books.bind="books" 
+             genres.bind="genres"
+             shelves.bind="shelves">
+  </book-list>
 
   <!-- <!-- binds the originalNumberOfBooks with a one-time binding -->
   <book-stats

@@ -14,6 +14,12 @@ export class Books {
     this.eventAggregator = eventAggregator;
   }
 
+  bind() {
+    this.loadBooks();
+    this.loadGenres();
+    this.loadShelves();
+  }
+
   // hooks into the attached() component-lifecycle callback method
   attached() {
     this.subscribeToEvents();
@@ -27,6 +33,18 @@ export class Books {
   // defines a hook/subscriber method by convention to be called whenever the value of bookTitle changes
   bookTitleChanged(newValue, oldValue) {
     console.log(`Book title changed, Old Value: ${oldValue}, New Value: ${newValue}`);
+  }
+
+  loadBooks() {
+    this.bookApi.getBooks().then(savedBooks => this.books = savedBooks);
+  }
+
+  loadGenres() {
+    this.bookApi.getGenres().then(genres => this.genres = genres); 
+  }
+
+  loadShelves() {
+    this.bookApi.getShelves().then(shelves => this.shelves = shelves);
   }
 
   subscribeToEvents() {
@@ -44,7 +62,12 @@ export class Books {
   }
 
   addBook() {
-    this.books.push({ title : this.bookTitle });
+    this.books.push({ 
+      title: this.bookTitle, 
+      shelves: [],
+      genres: [] 
+    });
+
     this.bookTitle = "";
   }
 
