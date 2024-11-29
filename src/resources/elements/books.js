@@ -92,12 +92,6 @@ export class Books {
                 ));
   }
 
-  bind() {
-    this.bookApi.getBooks().then(savedBooks => 
-      this.books = savedBooks
-    );
-  }
-
   // hooks into the detached component-lifecycle callback method to clean up the Event Aggregator subscriptions
   detached() {
     this.bookRemovedSubscription.dispose();

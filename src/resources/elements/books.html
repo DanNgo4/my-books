@@ -40,9 +40,9 @@
   </div>
 
   <book-list if.bind="
-               books.length > 0 &&
-               genres.length > 0 &&
-               shelves.length > 0
+               books.length > 0 && 
+               genres.length >= 0 && 
+               shelves.length >= 0
              "
              books.bind="books" 
              genres.bind="genres"

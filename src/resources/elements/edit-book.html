@@ -69,7 +69,20 @@
           </div>
         </div>
 
-        
+        <div class="form-group">
+          <div repeat.for="genre of genres" class="form-check form-check-inline mb-2 mr-sm-2 mb-sm-0">
+            <label class="form-check-label">
+              <input type="radio"
+                     name="genre"
+                     model.bind="genre"
+                     checked.bind="selectedGenre"
+                     class="form-check-input" 
+              />
+
+              ${genre.name}
+            </label>
+          </div>
+        </div>
 
         <div class="form-inline col-3 offset-lg-10 col-sm-12">
           <div class="custom-control" show.bind="loading">

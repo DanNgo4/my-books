@@ -9,6 +9,10 @@ import { BookApi } from "../../services/book-api";
 export class EditBook {
   @bindable editMode;
   @bindable book;
+  @bindable selectedGenre;
+  @bindable genres;
+  @bindable shelves;
+  temporaryBook = {};
 
   constructor(eventAggregator) {
     this.resetTempBook();
@@ -16,6 +20,8 @@ export class EditBook {
 
     // creates a handler method for rating-changed events
     this.ratingChangedListener = e => this.temporaryBook.rating = e.detail.rating;
+
+    this.saved = false;
   }
 
   bind() {
@@ -24,6 +30,14 @@ export class EditBook {
 
     // adds a listener on the rating element to handle changed events
     this.ratingElement.addEventListener("change", this.ratingChangedListener);
+
+    // sets selected shelves based on book-model values
+    this.selectedShelves = this.shelves.filter(shelf => 
+      this.temporaryBook?.shelves?.indexOf(shelf) !== -1
+    );
+
+    // sets selected genre based on book-model value
+    this.selectedGenre = this.genres.find(g => g.id == this.book.genre);
   }
 
   attached() {
@@ -38,15 +52,30 @@ export class EditBook {
     if (editModeNew) this.resetTempBook();
   }
 
-  // books can be saved if they have been edited, or if the rating has changed
+  // subscribes to selected-genre change and updates the temporary book as needed
+  selectedGenreChanged(newValue, oldValue) {
+    if (!newValue) return;
+
+    this.temporaryBook.genre = newValue.id;
+  }
+
+  // use a dirty check on the view-model properties and incorporate added fields
   @computedFrom(
     "temporaryBook.title", 
     "temporaryBook.description", 
     "temporaryBook.rating",
-    "temporaryBook.ownACopy"
+    "temporaryBook.ownACopy",
+    "saved",
+    "temporaryBook.shelves"
   )
   get canSave() {
-    return this.temporaryBook && !_.isEqual(this.temporaryBook, this.book);
+    let clean = this.temporaryBook.title == this.book.title &&
+                this.temporaryBook.genre == this.book.genre &&
+                this.temporaryBook.ownACopy == this.book.ownACopy &&
+                this.temporaryBook.description == this.book.description &&
+                this.temporaryBook.shelves == this.book.shelves;
+
+    return !clean;
   }
 
   // reset the temporary book ready for the next edit
@@ -95,6 +124,17 @@ export class EditBook {
   // toggles the edit mode to close the form when edits are complete
   toggleEditMode() {
     this.eventAggregator.publish("edit-mode-changed", !this.editMode);
+  }
+
+  // toggles edit mode on shelves to enable select control
+  toggleEditShelves() {
+    this.editingShelves = !this.editingShelves;
+  }
+
+  // untoggles edit mode on shelves to disable select control
+  unToggleEditShelves() {
+    this.temporaryBook.shelves = this.selectedShelves;
+    this.editingShelves = !this.editingShelves;
   }
 
   detached() {
