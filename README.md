@@ -1,5 +1,5 @@
 # `my-books`
-## A tutorial application from [Aurelia in Action](https://www.manning.com/books/aurelia-in-action) by [Sean Hunter](https://www.linkedin.com/in/huntersean).
+## A tutorial application from [Aurelia in Action](https://www.manning.com/books/aurelia-in-action) by [Sean Hunter](https://github.com/freshcutdevelopment).
 
 This project is bootstrapped by [aurelia-cli](https://github.com/aurelia/cli).
 
