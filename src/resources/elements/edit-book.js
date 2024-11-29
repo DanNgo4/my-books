@@ -22,6 +22,9 @@ export class EditBook {
     this.ratingChangedListener = e => this.temporaryBook.rating = e.detail.rating;
 
     this.saved = false;
+
+    // initialises editingShelves property to false to hide the shelf select control
+    this.editingShelves = false;
   }
 
   bind() {
