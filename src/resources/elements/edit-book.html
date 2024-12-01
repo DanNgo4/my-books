@@ -18,10 +18,10 @@
         <div class="form-group row">
           <label for="title">Title</label>
 
-          <!-- two-way binding between the input field and the temporary title -->
+          <!-- two-way binding between the input field and the temporary title, using validate binding behaviour -->
           <input type="text"
                  id="title"
-                 value.bind="temporaryBook.title"
+                 value.bind="temporaryBook.title & validate"
                  placeholder="book title"
                  class="form-control" />
         </div>
@@ -66,6 +66,16 @@
 
               Own a copy?
             </label>
+          </div>
+
+          <div class="form-group">
+            <label for="times-read" class="mb-2 mr-sm-2 mb-sm-0">Times Read</label>
+
+            <!-- enlists the time-read field for validation using validate binding behaviour -->
+            <input name="times-read"
+                   placeholder="0"
+                   value.bind="temporaryBook.timesRead & validate"
+                   class="form-control number mb-2 mr-sm-2 mb-sm-0" />
           </div>
 
           <hr />

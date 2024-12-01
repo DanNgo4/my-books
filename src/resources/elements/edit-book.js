@@ -1,20 +1,27 @@
-import { bindable, inject, computedFrom } from "aurelia-framework";
+import { bindable, inject, computedFrom, NewInstance } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
+import { ValidationRules, ValidationController } from "aurelia-validation";
 
 import _ from "lodash";
 
-import { BookApi } from "../../services/book-api";
+import { BootstrapFormRenderer } from "../../renderers/bootstrap-form-renderer";
 
-@inject(EventAggregator, BookApi)
+export class Book {
+  title = "";
+  description = "";
+  timesRead = 0;
+}
+
+@inject(EventAggregator, NewInstance.of(ValidationController))
 export class EditBook {
   @bindable editMode;
   @bindable book;
   @bindable selectedGenre;
   @bindable genres;
   @bindable shelves;
-  temporaryBook = {};
+  temporaryBook = new Book();
 
-  constructor(eventAggregator) {
+  constructor(eventAggregator, validationController) {
     this.resetTempBook();
     this.eventAggregator = eventAggregator;
 
@@ -25,6 +32,12 @@ export class EditBook {
 
     // initialises editingShelves property to false to hide the shelf select control
     this.editingShelves = false;
+
+    // sets the validation controller in a view-model field
+    this.validationController = validationController;
+
+    // adds the BootstrapFormRenderer to the validation controller
+    this.validationController.addRenderer(new BootstrapFormRenderer());
   }
 
   bind() {
@@ -69,7 +82,8 @@ export class EditBook {
     "temporaryBook.rating",
     "temporaryBook.ownACopy",
     "saved",
-    "temporaryBook.shelves"
+    "temporaryBook.shelves",
+    "temporaryBook.timesRead"
   )
   get canSave() {
     let clean = this.temporaryBook.title == this.book.title &&
@@ -97,10 +111,14 @@ export class EditBook {
   }
 
   save() {
-    // sets the loading state on the form prior to initialising the async task
-    this.loading = true;
-
-    this.publishBooksSavedEvent();
+    this.validationController
+      .validate()
+      .then(result => {
+        if (result.valid) {
+          this.loading = true;
+          this.publishBookSavedEvent();
+        }
+      })
   }
 
   // method to be called when the book has been saved
@@ -120,7 +138,7 @@ export class EditBook {
   }
 
   // publishes the book-saved event to be picked up by the parent component
-  publishBooksSavedEvent() {
+  publishBookSavedEvent() {
     this.eventAggregator.publish("save-book", this.temporaryBook);
   }
 
@@ -148,3 +166,23 @@ export class EditBook {
     this.ratingElement.removeEventListener("change", this.ratingChangedListener);
   }
 }
+
+// defines a new custom validation rule and gives the validation rule a name
+ValidationRules.customRule(
+  "zeroOrPositiveInteger",
+
+  // allows for null or undefined nubmers and verifies that the input value is and integer >= 0
+  (value, obj) => value === null ||
+                  value === undefined ||
+                  (Number.isInteger(value)) ||
+                  value >= 0,
+
+  "Books can only be read 0 or more times."
+);
+
+ValidationRules
+  .ensure(a => a.title).required()        // applies a required validation rule to the Book title property
+  .ensure(a => a.timesRead)               // initiates validation rule for the timesRead property
+  .required()                             // adds the required validation rule to the timesRead property
+  .satisfiesRule("zeroOrPositiveInteger") // adds the required validation rule to the timesRead property
+  .on(Book);                              // applies the validation rules to the Book class
