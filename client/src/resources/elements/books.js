@@ -62,34 +62,38 @@ export class Books {
   }
 
   addBook() {
-    this.books.push({ 
-      title: this.bookTitle, 
-      shelves: [],
-      genres: [] 
-    });
-
-    this.bookTitle = "";
+    this.bookApi
+      .addBook({ title: this.bookTitle })
+      .then(createdBook => {
+        this.books.push(createdBook);
+        this.bookTitle = "";
+      });
   }
 
   removeBook(toRemove) {
-    let bookIndex = _.findIndex(this.books, book => {
-      return book.Id === toRemove.Id;
-    });
+    this.bookApi
+      .deleteBook(toRemove)
+      .then(() => {
+        let bookIndex = _.findIndex(this.books, book => {
+          return book._id === toRemove._id;
+        });
 
-    this.books.splice(bookIndex, 1);  
+        this.books.splice(bookIndex, 1);
+      })
   }
 
   bookSaved(updatedBook) {
-    let index = this.books.findIndex(book => book.Id == updatedBook.Id);
+    this.bookApi
+      .saveBook(updatedBook)
+      .then((savedBook) => {
+        let index = this.books.findIndex(
+          book => book._id == savedBook._id
+        );
 
-    Object.assign(this.books[index], updatedBook);
+        Object.assign(this.books[index], savedBook);
 
-    // saves the book using the book API
-    // publishes a save-book-complete event for a specific book
-    this.bookApi.saveBook(updatedBook)
-                .then((savedBook) => this.eventAggregator.publish(
-                  `book-save-complete-${savedBook.Id}`
-                ));
+        this.eventAggregator.publish(`book-save-complete-${savedBook._id}`);
+      });
   }
 
   // hooks into the detached component-lifecycle callback method to clean up the Event Aggregator subscriptions

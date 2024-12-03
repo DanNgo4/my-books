@@ -47,18 +47,18 @@ export class EditBook {
     // adds a listener on the rating element to handle changed events
     this.ratingElement.addEventListener("change", this.ratingChangedListener);
 
-    // sets selected shelves based on book-model values
+    // sets selected shelves based on book-model values, these are now objects rather than string
     this.selectedShelves = this.shelves.filter(shelf => 
-      this.temporaryBook?.shelves?.indexOf(shelf) !== -1
+      this.temporaryBook?.shelves?.indexOf(shelf.name) !== -1
     );
 
     // sets selected genre based on book-model value
-    this.selectedGenre = this.genres.find(g => g.id == this.book.genre);
+    this.selectedGenre = this.genres.find(g => g._id == this.book.genre);
   }
 
   attached() {
     this.bookSaveCompleteSubscription = this.eventAggregator.subscribe(
-      `book-save-complete-${this.book.Id}`, 
+      `book-save-complete-${this.book._id}`, 
       () => this.bookSaveComplete()
     );
   }
@@ -72,7 +72,7 @@ export class EditBook {
   selectedGenreChanged(newValue, oldValue) {
     if (!newValue) return;
 
-    this.temporaryBook.genre = newValue.id;
+    this.temporaryBook.genre = newValue._id;
   }
 
   // use a dirty check on the view-model properties and incorporate added fields

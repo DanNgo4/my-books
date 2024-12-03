@@ -1,4 +1,4 @@
-import { HttpClient } from "aurelia-fetch-client";
+import { HttpClient, json } from "aurelia-fetch-client";
 import { inject } from "aurelia-framework";
 
 @inject (HttpClient)
@@ -6,50 +6,87 @@ export class BookApi {
   constructor(http) {
     this.http = http;
 
-    // simulated latency lifted to a class field`
-    this.simulatedLatency = 500;
+    const baseUrl  = "http://localhost:8333/api/";
+
+    http.configure(config => {
+      config.withBaseUrl(baseUrl);
+    });
   }
 
   getBooks() {
-    return this.http.fetch("books.json")
+    return this.http.fetch("books")
       .then(response => response.json())
       .then(books => {
         return books;
-      });
+      })
+      .catch(error => {
+        console.log.apply("Error retrieving books");
+        return [];
+      })
   }
 
   // retrieves a preset list of book shelves
   getShelves() {
-    let shelves = [
-      "Classics",
-      "Want to read",
-      "Research",
-      "For the kids",
-    ];
-
-    return this.simulateFetch(shelves);
+    return this.http.fetch("shelves")
+      .then(response => response.json())
+      .then(shelves => {
+        return shelves;
+      })
+      .catch(error => {
+        console.log("Error retrieving shelves");
+        return [];
+      })
   }
 
   // retrieves a preset list of genres
   getGenres() {
-    let genres = [
-      { id: 1, name: "Art" },
-      { id: 2, name: "Autobiographies" },
-      { id: 3, name: "Drama" },
-      { id: 4, name: "Childrens" },
-      { id: 5, name: "Fantasy" },
-      { id: 6, name: "History" },
-      { id: 7, name: "Mystery" },
-      { id: 8, name: "Romance" },
-      { id: 9, name: "Science" },
-      { id: 10, name: "Science Fiction" },
-    ];
+    return this.http.fetch("genres")
+      .then(response => response.json())
+      .then(genres => {
+        return genres;
+      })
+      .catch(error => {
+        console.log("Error retrieving genres.");
+        return [];
+      });
+  }
 
-    return this.simulateFetch(genres);
+  addBook(book) {
+    return this.http.fetch("books", {
+      method: "post",
+      body: json(book)
+    }).then(response => response.json())
+      .then(createdBook => {
+        return createdBook;
+      })
+      .catch(error => {
+        console.log("Error adding book.");
+      })
+  }
+
+  deleteBook(book) {
+    return this.http.fetch(`book/${book._id}`, {
+      method: "delete"
+    }).then(response => response.json())
+      .then(responseMessage => {
+        return responseMessage;
+      })
+      .catch(error => {
+        console.log("Error deleting book");
+      });
   }
 
   saveBook(book) {
-    return this.simulateFetch(book);
+    return this.http.fetch(`book/${book._id}`, {
+      method: "put",
+      body: json(book)
+    }).then(response => response.json())
+      .then(savedBook => {
+        return savedBook;
+      })
+      .catch(error => {
+        console.log("Error saving book.");
+      })
   }
 
   // latency simulation refactored into its own method
