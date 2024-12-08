@@ -1,0 +1,52 @@
+<template>
+  <form if.bind="user" class="form card" submit.trigger="saveUser()">
+    <div class="card-block">
+      <h4 class="card-title">User details <i class="fa fa-user"></i></h4>
+
+      <h6 class="card-subtitle mb-2 text-muted">view/edit user details</h6>
+
+      <hr />
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input readonly
+               name="name"
+               placeholder="Enter a name"
+               value.bind="user.name"
+               class="form-control" />
+
+        <label for="first_name">First Name</label>
+        <input name="first_name" 
+               placeholder="Enter first name"
+               value.bind="user.first_name"
+               class="form-control" />
+
+        <label for="surname">Surname</label>
+        <input name="surname"
+               placeholder="Enter a surname"
+               value.bind="user.surname"
+               class="form-control" />
+
+        <label for="email">Email</label>
+        <input name="email"
+               placeholder="Enter an email address"
+               value.bind="user.email"
+               class="form-control" />
+      </div>
+    </div>  
+
+    <div class="card-footer">
+      <a class="btn btn-secondary col-sm-2" route-href="route: users">
+        <i class="fa fa-arrow-left"></i> back
+      </a>
+
+      <button 
+        type="submit" 
+        disabled.bind="user.name.length == 0"
+        class="btn btn-primary col-sm-2 push-sm-8"
+      >
+        save
+      </button>
+    </div>
+  </form>
+</template>

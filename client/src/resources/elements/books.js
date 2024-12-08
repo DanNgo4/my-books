@@ -20,7 +20,7 @@ export class Books {
     this.loadBooks();
     this.loadGenres();
     this.loadShelves();
-    this.loadBooksJsonp();
+    //this.loadBooksJsonp();
   }
 
   // hooks into the attached() component-lifecycle callback method
