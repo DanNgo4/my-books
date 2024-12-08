@@ -9,7 +9,23 @@ export class BookApi {
     const baseUrl  = "http://localhost:8333/api/";
 
     http.configure(config => {
-      config.withBaseUrl(baseUrl);
+      config
+        .withBaseUrl(baseUrl)
+        .withInterceptor({  // adds an interceptor to the http client configuration
+          request(request) {
+            // custom header for POST requests
+            if (request.method == "POST") {
+              request.headers["awesome-custom-header"];
+            }
+
+            console.log("request", request);
+            return request;
+          },
+          response(response) {
+            console.log("response", response);
+            return response;
+          }
+        });
     });
   }
 

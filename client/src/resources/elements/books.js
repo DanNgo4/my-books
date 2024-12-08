@@ -4,13 +4,15 @@ import { EventAggregator } from "aurelia-event-aggregator";
 import _ from "lodash";
 
 import { BookApi } from "../../services/book-api";
+import { BookApiJSONP } from "../../services/book-api-jsonp";
 
-@inject (BookApi, EventAggregator)
+@inject (BookApi, BookApiJSONP, EventAggregator)
 export class Books {
-  constructor (bookApi, eventAggregator) {
+  constructor (bookApi, BookApiJSONP, eventAggregator) {
     this.bookTitle = "";
     this.books = [];
     this.bookApi = bookApi;
+    this.bookApiJSONP = BookApiJSONP;
     this.eventAggregator = eventAggregator;
   }
 
@@ -18,6 +20,7 @@ export class Books {
     this.loadBooks();
     this.loadGenres();
     this.loadShelves();
+    this.loadBooksJsonp();
   }
 
   // hooks into the attached() component-lifecycle callback method
@@ -45,6 +48,12 @@ export class Books {
 
   loadShelves() {
     this.bookApi.getShelves().then(shelves => this.shelves = shelves);
+  }
+
+  loadBooksJsonp() {
+    this.bookApiJSONP
+      .getBooksJsonp()
+      .then(savedBooks => console.log("jsonp books", savedBooks));
   }
 
   subscribeToEvents() {
