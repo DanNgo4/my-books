@@ -1,0 +1,39 @@
+<template>
+  <!-- declares the HTML header fragment to be rendered into the "header" layout slot -->
+  <div slot="header">
+    <h1 class="brand-heading">my-books</h1>
+  </div>
+
+  <!-- declares the HTML form fragment to be rendered into the "form" layout slot -->
+   <div slot="form" class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="card">
+        <div class="card-header">
+          <h1>login</h1>
+        </div>
+
+        <form class="card-block form-inline">
+          <label class="sr-only" for="userName">user name</label>
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <input type="text"
+                   id="userName"
+                   placeholder="user name"
+                   class="form-control" />
+          </div>
+
+          <label class="sr-only" for="password">password</label>
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <input type="password"
+                   id="password"
+                   placeholder="password"
+                   class="form-control" />
+          </div>
+
+          <button type="submit" class="btn btn-success">login</button>
+        </form>
+
+        <div class="card-footer text-muted">welcome to my-books</div>
+      </div>
+    </div>
+   </div>
+</template>
