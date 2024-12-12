@@ -1,20 +1,34 @@
 import { PLATFORM } from "aurelia-pal";
+import { inject } from "aurelia-framework";
+import { HttpClient } from "aurelia-fetch-client";
+
 import "bootstrap";
 
+import { AuthService } from "./services/auth-service";
+
+import { AuthoriseStep } from "./router-steps/authorisation-step";
+
+@inject(AuthService, HttpClient)
 export class App {
+  constructor(authService, http) {
+    this.authService = authService;
+
+    const baseUrl = "http://localhost:8333/api/";
+
+    http.configure(config => {
+      config.withBaseUrl(baseUrl)
+            .withInterceptor(this.authService.tokenInterceptor);
+    });
+  }
+
   configureRouter(config, router) {
     this.router = router;
 
     config.title = "my-books";
 
-    // creates the new preActivate pipeline step
-    var step = {
-      run: (navigationInstruction, next) => {   // defines the required run function implementing the logging behaviour
-        console.log("pre-activate for module", navigationInstruction.config.moduleId);  // logs the current moduleId on pre-activate
-        return next();  // returns callback function
-      }
-    };
-    config.addPreActivateStep(step);  // adds the new pre-activate step to the pipeline
+    // instantiates the authorisation routing step and adds it to the pipeline
+    let step = new AuthoriseStep(this.authService);
+    config.addAuthorizeStep(step);
 
     // function determining which 404 module to render based on the route at runtime
     var handleUnknownRoutes = (instruction) => {
@@ -32,7 +46,7 @@ export class App {
         moduleId: PLATFORM.moduleName("./index"),
         title: "Home",
         nav: true,
-        settings: { icon: "home" },
+        settings: { icon: "home", auth: true }, // tags secured routes to inform the route step and nav-bar filter about which routes require authentication
         layoutViewModel: PLATFORM.moduleName("main-layout")
       },
 
@@ -42,7 +56,7 @@ export class App {
         moduleId: PLATFORM.moduleName("./resources/elements/books"),
         title: "Books",
         nav: true,
-        settings: { icon: "book" },
+        settings: { icon: "book", auth: true },
         layoutViewModel: "main-layout"
       },
 
@@ -52,7 +66,7 @@ export class App {
         moduleId: PLATFORM.moduleName("./resources/elements/users"),
         title: "Users",
         nav: true,
-        settings: { icon: "users" },
+        settings: { icon: "users", auth: true, admin: true }, // tags admin-only routes
         layoutViewModel: "main-layout"
       },
 
@@ -61,6 +75,7 @@ export class App {
         name: "user-detail",
         moduleId: PLATFORM.moduleName("./resources/elements/user-details"),
         title: "User details",
+        settings: { auth: true, admin: true },
         layoutViewModel: "main-layout"
       },
 

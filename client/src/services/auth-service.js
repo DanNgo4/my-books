@@ -26,4 +26,24 @@ export class AuthService {
   logOut() {
     window.localStorage.removeItem("token");
   }
+
+  getToken() {
+    return window.localStorage.getItem("token");
+  }
+
+  get tokenInterceptor() {
+    // sets auth to the current this context
+    let auth = this;
+
+    return {
+      // hooks into the FetchClient requests
+      request(request) {
+        let token = auth.getToken();
+        if (token) {
+          // appends the token as an authorise request header
+          request.headers.append("authorization");
+        }
+      }
+    }
+  }
 }

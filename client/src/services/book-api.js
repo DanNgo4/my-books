@@ -5,28 +5,6 @@ import { inject } from "aurelia-framework";
 export class BookApi {
   constructor(http) {
     this.http = http;
-
-    const baseUrl  = "http://localhost:8333/api/";
-
-    http.configure(config => {
-      config
-        .withBaseUrl(baseUrl)
-        .withInterceptor({  // adds an interceptor to the http client configuration
-          request(request) {
-            // custom header for POST requests
-            if (request.method == "POST") {
-              request.headers["awesome-custom-header"];
-            }
-
-            console.log("request", request);
-            return request;
-          },
-          response(response) {
-            console.log("response", response);
-            return response;
-          }
-        });
-    });
   }
 
   getBooks() {
