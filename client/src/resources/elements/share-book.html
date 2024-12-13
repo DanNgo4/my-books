@@ -1,0 +1,19 @@
+<template>
+  <!-- Dialog wrapping element -->
+  <ux-dialog>
+    <ux-dialog-body>
+    </ux-dialog-body>
+
+    <ux-dialog-footer>
+      <!-- closes the dialog when the Cancel button is clicked -->
+      <button click.trigger="controller.cancel()">
+        Cancel
+      </button>
+
+      <!-- delegates the OK button-click event to the OK method, passing in the current book -->
+       <button click.trigger="ok(book)">
+        Ok
+       </button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>

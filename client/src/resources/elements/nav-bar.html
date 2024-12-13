@@ -1,12 +1,41 @@
 <template bindable="router">
+  <require from="../value-converters/auth-filter"></require>
+
   <nav>
     <ul class="nav nav-pills float-right">
-      <li repeat.for="row of router.navigation" class="nav-item">
+      <!-- filters out routes the user shouldn't see -->
+      <li repeat.for="row of router.navigation | authFilter" class="nav-item">
         <a class="nav-link ${row.isActive ? 'active' : ''}" href.bind="row.href">
           ${row.title}
 
           <i if.bind="row.settings.icon" class="fa fa-${row.settings.icon}"></i>
         </a>
+      </li>
+
+      <li class="nav-item dropdown">
+        <!-- 
+          - data-toggle: this anchor element is a toggle for a dropdown menu
+          - role: declares the role of the element as a button, useful for accessibility
+          - aria-haspopup: indicates that the element triggers the display of a popup, userful for accessibility
+          - aria-expanded: indicates whether the dropdown is currently expanded or not
+        -->
+        <a 
+          data-toggle="dropdown" 
+          href="#" 
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="true"
+          class="nav-link dropdown-toggle"
+        >
+          <!-- renders the user name (retrieved from decoded JWT) -->
+          <i aria-hidden="true" class="fa fa-user-circle-o">${user.name}</i>
+        </a> 
+
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#" click.delegate="logOut()">
+            logout
+          </a>
+        </div>
       </li>
     </ul>
   </nav>

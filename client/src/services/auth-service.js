@@ -7,6 +7,15 @@ export class AuthService {
     this.http = http;
   }
 
+  // checks if the user is logged in based on the presence of the token
+  isLoggedIn() {
+    let token = this.getToken();
+
+    if (token) return true;
+
+    return false
+  }
+
   logIn(userName, password) {
     return this.http
     .fetch("token", {
@@ -19,7 +28,7 @@ export class AuthService {
       return tokenResult;
     })
     .catch(error => {
-      console.log("Error retrieving token");
+      console.log("Error retrieving token", error);
     })
   }
 
@@ -44,6 +53,25 @@ export class AuthService {
           request.headers.append("authorization");
         }
       }
+    }
+  }
+
+  // gets the user from the token
+  getUser() {
+    let token = this.decodeToken();
+    return token._doc;
+  }
+
+  // decodes the JWT so that you can extract the user with Base64 decode
+  decodeToken(token) {
+    token = token || this.getToken();
+
+    if (!token) return;
+
+    try {
+      return JSON.parse(atob(token.split(",")[1]));
+    } catch (e) {
+      return null;
     }
   }
 }
