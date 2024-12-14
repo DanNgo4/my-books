@@ -1,0 +1,103 @@
+<template>
+  <!-- only shows the underlying textarea element if the components is in edit mode -->
+  <style>
+    .text-area {
+      position: relative;
+    }
+
+    .text-area button {
+      position: absolute;
+      bottom: 8px;
+    }
+
+    .text-area button.cancel {
+      right: 10px;
+    }
+
+    .text-area button.ok {
+      right: 68px;
+    }
+
+    .text-area textarea {
+      margin-top: 10px;
+      background-color: #F5F5F5;
+      width: 100%;
+    }
+
+    .text-block {
+      background-color: rgba(158, 158, 158, 0.18);
+      height: 100px;
+      padding: 10px;
+      border-right-width: .25rem;
+      border-radius: .25rem;
+    }
+
+    .text-block:hover {
+      cursor: pointer;
+      background-color: rgba(158, 158, 158, 0.44);
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      line-height: 1.25;
+      border-radius: .25rem;
+      transition: all .15s ease-in-out;
+    }
+
+    .btn-success {
+      color: white;
+      background-color: #009688;
+    }
+
+    .btn-success:hover {
+      background-color: #4DB6AC;
+    }
+
+    .btn-danger {
+      color: white;
+      background-color: #BDBDBD;
+    }
+
+    .btn-danger:hover {
+      background-color: #E0E0E0;
+    }
+
+    .box-sizing-border {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+  </style>
+
+  <!-- only shows the underlying textarea element if the component is in edit mode -->
+  <div class="text-area" show.bind="editMode">
+    <!--
+      - exposes a reference to the textarea element to the view-model
+      - binds the textarea value to the temporary text 
+    -->
+    <textarea ref="element"
+              rows="${rows}"
+              value.bind="textContentTemp"
+              class="box-sizing-border">
+    </textarea>
+
+    <!-- cancels the temporary text when the user clicks the Cancel button -->
+    <button click.delegate="cancel()" class="cancel btn btn-danger">
+      cancel
+    </button>
+
+    <!-- saves the temporary text when the user clicks the OK button -->
+    <button click.delegate="ok()" class="ok btn btn-success">
+      ok
+    </button>
+  </div>
+
+  <!-- only shows the read-mode view of the text-area when the user isn't editing -->
+  <p show.bind="!editMode"
+     click.delegate="edit()"
+     class="text-block"
+  >
+    <!-- renders the text content to the read-mode <p> element body -->
+    ${textContent}
+  </p>
+</template>

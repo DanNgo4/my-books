@@ -18,5 +18,24 @@ export class UxTextArea {
     this.textContentTemp = this.textContent;
   }
 
-  // switches the
+  // switches the text-area to edit mode and switches focus to the current element
+  edit() {
+    this.editMode = true;
+
+    setTimeout(_ => {
+      this.element.focus();
+    }, 1);
+  }
+
+  // saves the temporary text for the text-area
+  ok() {
+    this.editMode = false;
+    this.textContent = this.textContentTemp;
+  }
+
+  // undoes the text changes by reverting by reverting to the temporary text
+  cancel() {
+    this.editMode = false;
+    this.textContentTemp = this.textContent;
+  }
 }
