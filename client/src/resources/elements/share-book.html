@@ -1,10 +1,24 @@
 <template>
+  <require from="./share-book-card.html"></require>
+  <require from="../components/ux-font-block.html"></require>
+
   <!-- Dialog wrapping element -->
   <ux-dialog>
     <ux-dialog-body>
+      <!-- adds the ux-font-block component to show the loading and complete states -->
+      <ux-font-block show.bind="state != 'sharing'"
+                     color.bind="fontColor"
+                     font.bind="font">
+      </ux-font-block>
+
+      <!-- adds the share-book-card component and only shows in the sharing state -->
+      <share-book-card show.bind="state == 'sharing'"
+                       book.bind="book">
+      </share-book-card>
     </ux-dialog-body>
 
-    <ux-dialog-footer>
+    <!-- hides the footer once the user clicks OK to complete the share -->
+    <ux-dialog-footer show.bind="state == 'sharing'">
       <!-- closes the dialog when the Cancel button is clicked -->
       <button click.trigger="controller.cancel()">
         Cancel

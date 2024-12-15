@@ -1,4 +1,7 @@
 <template>
+  <require from="../attributes/au-selectize"></require>
+  <require from="selectize/dist/css/selectize.default.css"></require>
+
   <form if.bind="user" class="form card" submit.trigger="saveUser()">
     <div class="card-block">
       <h4 class="card-title">User details <i class="fa fa-user"></i></h4>
@@ -32,6 +35,35 @@
                placeholder="Enter an email address"
                value.bind="user.email"
                class="form-control" />
+
+        <label for="select-country">Country</label>
+        <div class="row no-gutter">
+          <div class="col-md-3">
+            <!-- 
+              - passes the dynamic options to the custom attribute
+              - delegates the select change event to the countryChanged method 
+            -->
+            <select 
+              id="select-country"
+              if.bind="selected"
+              au-selectize="
+                url: countries;
+                valueField: code;
+                labelField: name;
+                searchField: name;
+                selected.bind: selected
+              "
+              placeholder="Select user's contry..."
+              change.delegate="countryChanged($event)"
+              class="demo-default"
+            >
+              <!-- initialises the select control with the user's current country -->
+              <option value.bind="selected.code">
+                ${selected.name}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>  
 

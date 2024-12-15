@@ -1,0 +1,22 @@
+<template bindable="font, color">
+  <!-- Web Component-specific styles -->
+  <style>
+    .font-block {
+      width: 280px;
+      height: 150px;
+      padding: 50px;
+      background-color: #F5F5F5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+
+  <div class="font-block">
+    <!-- binds the span's CSS to the bindable color property -->
+    <span css.bind="color">
+      <!-- renders the font icon (e.g., a loading indicator) -->
+      <i class="${font}"></i>
+    </span>
+  </div>
+</template>

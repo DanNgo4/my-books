@@ -1,0 +1,41 @@
+<template bindable="book">
+  <require from="../components/ux-card.html"></require>
+  <require from="../components/ux-thumbnail-image"></require>
+  <require from="../components/ux-text-area"></require>
+  <requrie from="../components/ux-tags"></requrie>
+
+  <ux-card class="ux-card">
+    <!-- projects a ux-thumbnail image of the book's cover image into the card-image slot -->
+    <div slot="card-image">
+      <ux-thumbnail-image img-src.bind="book.imageUrl"
+                          img-href.bind="book.url">
+      </ux-thumbnail-image>
+    </div>
+
+    <!-- projects the book's title into the title slot -->
+    <h4 slot="title">
+      <i class="fa fa-share-alt" aria-hidden="true"></i>
+      ${book.title}
+    </h4>
+
+    <!-- projects the author's name into the author slot -->
+    <h6 slot="sub-title">
+      Author
+      
+      <a href.bind="book.authorBioUrl">
+        ${book.author}
+      </a>
+    </h6>
+
+    <!-- projects a ux-text-area with the book's description into the card-text slot -->
+    <div slot="card-text">
+      <ux-text-area text-content.bind="book.description"
+                    rows.bind="11">
+      </ux-text-area>
+    </div>
+
+    <div slot="card-footer" class="row">
+      <ux-tags tags.bind="book.shelves" class="col-md-6 offset-md-8"></ux-tags>
+    </div>
+  </ux-card>
+</template>
