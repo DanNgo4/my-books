@@ -1,17 +1,20 @@
 <template>
-  <div class="jumbotron">
-    <h1 class="display-3">
-      <span class="brand-highlight">my</span>-books
-    </h1>
+  <!-- fades the div in rather than render it immediately -->
+  <div show.bind="isAttached" au-animate class="fade-in">
+    <div class="jumbotron">
+      <h1 class="display-3">
+        <span class="brand-highlight">my</span>-books
+      </h1>
 
-    <p class="lead">my-books allows you to keep track of the books you've already read by adding and rating them as you read.</p>
+      <p class="lead">my-books allows you to keep track of the books you've already read by adding and rating them as you read.</p>
 
-    <a route-href="route: books;">books</a> <!-- reference to the stored route -->  
-  </div>
+      <a route-href="route: books;">books</a> <!-- reference to the stored route -->  
+    </div>
 
-  <div class="row">
-    <div class="col-lg-12">
-      <p></p>
+    <div class="row">
+      <div class="col-lg-12">
+        <p></p>
+      </div>
     </div>
   </div>
 </template>

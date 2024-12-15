@@ -5,7 +5,8 @@
   <require from="../value-converters/search-bold"></require>
   <require from="../value-converters/highlight"></require>
 
-  <li class="${ book.read ? 'read-book' : '' } list-group-item">
+  <!-- au-animate class to indicate that an element should be animated to avoid the need to observe every element in the application -->
+  <li class="${ book.read ? 'read-book' : '' } list-group-item au-animate">
     <div class="book col-12">
       <div class="book-options form-inline">
 

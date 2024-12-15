@@ -98,17 +98,17 @@ body{
 
 /* Add nav bar brand highlight color (theme) */
 .nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
-    color: #fff;
-    background-color: #27ae60;
+  color: #fff;
+  background-color: #27ae60;
 }
 
 /* Add brand button-success color (theme) */
 .btn-success{
-    background-color: #27ae60;
+  background-color: #27ae60;
 }
 
 .btn-success:hover {
-    background-color: #2ecc71;
+  background-color: #2ecc71;
 }
 
 .btn-success:disabled{
@@ -116,14 +116,14 @@ body{
 }
 
 .btn-outline-success {
-    color: #27ae60;
-    border-color: #27ae60;
+  color: #27ae60;
+  border-color: #27ae60;
 }
 
 .btn-outline-success:hover{
-    color: white;
-    border-color: #27ae60;
-    background-color: #27ae60;
+  color: white;
+  border-color: #27ae60;
+  background-color: #27ae60;
 }
 
 .cancel{
@@ -151,9 +151,9 @@ body{
 }
 
 .remove-button:hover{
-    background-color: #eceeef;
-    cursor: pointer;
-    color: #292b2c;
+  background-color: #eceeef;
+  cursor: pointer;
+  color: #292b2c;
 }
 
 /** Hide some content until we receive a hover event **/
@@ -185,46 +185,56 @@ li.read-book{
 
 /** Animations **/
 
-.books>li.au-enter {
-    opacity: 0!important;
+.books > li.au-enter {
+  opacity: 0!important;
 }
 
-.books>li.au-enter-active {
-    -webkit-animation: fadeIn 2s;
-    animation: fadeIn 2s;
+.books > li.au-enter-active {
+  -webkit-animation: fadeIn 2s;
+  animation: fadeIn 2s;
 }
 
-.books>li.au-leave-active {
-    -webkit-animation: fadeOut 0.5s;
-    animation: fadeOut 0.5s;
+.books > li.au-leave-active {
+  -webkit-animation: fadeOut 0.5s;
+  animation: fadeOut 0.5s;
+}
+
+/* adds the aurelia-hide-add CSS transition to fade out the <div> when it's hidden */
+.fade-in.aurelia-hide-add {
+  animation: fadeOut 0.3s ease-out;
+}
+
+/* adds the aurelia-hide-remove CSS transition to fade in the <div> when it's added */
+.fade-in.aurelia-hide-remove {
+  animation: fadeIn 0.3s ease-out;
 }
 
 @-webkit-keyframes fadeIn {
-    0%   { opacity: 0; }
-    100% { opacity: 1; }
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 @keyframes fadeIn {
-    0%   { opacity: 0; }
-    100% { opacity: 1; }
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 @-webkit-keyframes fadeOut {
-    0%   { opacity: 1; }
-    100% { opacity: 0; }
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 @keyframes fadeOut {
-    0%   { opacity: 1; }
-    100% { opacity: 0; }
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 .transformable {
-    -webkit-transition: height 100ms linear;
-    -moz-transition: height 100ms linear;
-    -o-transition: height 100ms linear;
-    -ms-transition: height 100ms linear;
-    transition: height 100ms linear;
+  -webkit-transition: height 100ms linear;
+  -moz-transition: height 100ms linear;
+  -o-transition: height 100ms linear;
+  -ms-transition: height 100ms linear;
+  transition: height 100ms linear;
 }
 
 /** End Animations **/
